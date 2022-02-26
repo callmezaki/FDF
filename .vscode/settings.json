@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+		"fdf.h": "c",
+		"ios": "c",
+		"fdf": "c",
+		"__node_handle": "c",
+		"fcntl.h": "c",
+		"__locale": "c"
+	}
+}
