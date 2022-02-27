@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 11:24:11 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/09 00:13:09 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/27 05:23:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static char	*move(char *s1, char *s2, char *s)
 	s[a] = '\0';
 	return (s);
 }
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	int		a;
@@ -60,4 +61,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (s);
 }
-

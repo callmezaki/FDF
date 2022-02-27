@@ -6,12 +6,11 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 10:11:45 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/07 21:49:46 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/27 05:38:47 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
 
 size_t	ft_strlen(const char *str)
 {

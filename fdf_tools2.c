@@ -6,19 +6,20 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:44:46 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/26 06:12:19 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/27 05:52:18 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include"fdf.h"
 
-void check_map(t_data data)
+void	check_map(t_data data)
 {
-	int i = 0;
-	int len = 0;
-	char **temp;
-	
+	int		i;
+	int		len;
+	char	**temp;
+
+	len = 0;
+	i = 0;
 	while (i < data.height)
 	{
 		if (data.lines[i][0] == '\n')
@@ -28,13 +29,12 @@ void check_map(t_data data)
 		}
 		i++;
 	}
-	
 	i = 0;
-	while(data.lines[i])
+	while (data.lines[i])
 	{
 		len = 0;
 		temp = ft_split(data.lines[i], ' ');
-		while(temp[len])
+		while (temp[len])
 			len++;
 		if (len != data.width)
 		{
@@ -45,91 +45,148 @@ void check_map(t_data data)
 	}
 }
 
-t_mlx ft_reset(t_mlx mlx)
+t_mlx	ft_reset(t_mlx mlx)
 {
 	mlx.altitude = 1;
-	mlx.zoom	= 0;
-	mlx.position_x	= 0;
-	mlx.position_y	= 0;
-	return(mlx);
-} 
+	mlx.zoom = get_mult(mlx.data, mlx);
+	mlx.position_x = 0;
+	mlx.position_y = 0;
+	mlx.r_type = 'n';
+	mlx.iso_validity = 1;
+	mlx.alpha = 0.8;
+	mlx.beta = 0.8;
+	mlx.gama = 0.8;
+	return (mlx);
+}
 
 int	key_hook(int key, t_mlx *mlx)
 {
-	mlx_destroy_image(mlx->mlx_ptr,mlx->img_addr);
+	mlx_destroy_image(mlx->mlx_ptr, mlx->img_addr);
 	mlx->img = mlx_new_image(mlx->mlx_ptr, 1920, 1080);
-	if (key == esc)
-		exit(0);
-	if (key == key_r)
-		*mlx = ft_reset(*mlx);
-	if(key == plus)
-		mlx->altitude += 1;
-	if(key == minuse)
-		mlx->altitude -= 1;
-	if(key == key_i)
-		mlx->zoom += 1;
-	if(key == key_o)
-		mlx->zoom -= 1;
-	if (key == right)
-		mlx->position_x += 10;
-	if (key == left)
-		mlx->position_x -= 10;
-	if (key == down)
-		mlx->position_y += 10;
-	if (key == up)
-		mlx->position_y -= 10;
-	if (key == key_x)
-		mlx->r_type = 'x';
-	if (key == key_p)
+	if (key == ESC)
 	{
-		if (mlx->iso_validity == true)
-			mlx->iso_validity = false;
-		else
-			mlx->iso_validity = true;
+		write(1, "Bye!\n", 6);
+		exit(0);
 	}
-	projection(mlx->data,mlx);
+	if (key == KEY_R)
+		*mlx = ft_reset(*mlx);
+	if (key == PLUS)
+		mlx->altitude += 1;
+	if (key == MINUSE)
+		mlx->altitude -= 1;
+	if (key == RIGHT)
+		mlx->position_x += 10;
+	if (key == LEFT)
+		mlx->position_x -= 10;
+	if (key == DOWN)
+		mlx->position_y += 10;
+	if (key == UP)
+		mlx->position_y -= 10;
+	if (key == KEY_X || key == KEY_S)
+	{
+		mlx->r_type = 'x';
+		if (key == KEY_X)
+			mlx->alpha += 0.1;
+		else
+			mlx->alpha -= 0.1;
+	}
+	if (key == KEY_C || key == KEY_D)
+	{
+		mlx->r_type = 'y';
+		if (key == KEY_C)
+			mlx->beta += 0.1;
+		else
+			mlx->beta -= 0.1;
+	}
+	if (key == KEY_Z || key == KEY_A)
+	{
+		mlx->r_type = 'z';
+		if (key == KEY_Z)
+			mlx->gama += 0.1;
+		else
+			mlx->gama -= 0.1;
+	}
+	if (key == KEY_P)
+	{
+		if (mlx->iso_validity == TRUE)
+			mlx->iso_validity = FALSE;
+		else
+			mlx->iso_validity = TRUE;
+	}
+	projection(mlx->data, mlx);
 	return (0);
 }
 
-t_vars get_mult(t_data data, t_vars vars, int zoom)
+int	get_mult(t_data data, t_mlx vars)
 {
-	int n;
 	if (data.height > 400 || data.width > 400)
-		n = 2;
+		vars.zoom = 2;
 	else if (data.height > 200 || data.width > 200)
-		n = 3;
+		vars.zoom = 3;
 	else if (data.height > 99 || data.width > 99)
-		n = 4;
+		vars.zoom = 4;
 	else if (data.height > 50 || data.width > 50)
-		n = 20;
+		vars.zoom = 20;
 	else
-		n = 25;
+		vars.zoom = 25;
 	if (data.z_size != 0 && data.case_size != 0)
-		n = data.case_size;
-	vars.y0 *= n + zoom;
-	vars.y1 *= n + zoom;
-	vars.x0 *= n + zoom;
-	vars.x1 *= n + zoom;
-	return(vars);
+		vars.zoom = data.case_size;
+	return (vars.zoom);
 }
 
+t_vars	ft_rotation(t_vars vars, t_mlx mlx, char rotation_type)
+{
+	int	temp;
+	int	temp1;
 
+	if (rotation_type == 'x')
+	{
+		temp = vars.y0 * cos(mlx.alpha) + vars.z0 * sin(mlx.alpha);
+		temp1 = vars.y1 * cos(mlx.alpha) + vars.z1 * sin(mlx.alpha);
+		vars.z0 = -vars.y0 * cos(mlx.alpha) + vars.z0 * sin(mlx.alpha);
+		vars.z1 = -vars.y1 * cos(mlx.alpha) + vars.z1 * sin(mlx.alpha);
+		vars.y0 = temp;
+		vars.y1 = temp1;
+	}
+	if (rotation_type == 'y')
+	{
+		temp = vars.x0 * cos(mlx.beta) + vars.z0 * sin(mlx.beta);
+		temp1 = vars.x1 * cos(mlx.beta) + vars.z1 * sin(mlx.beta);
+		vars.z0 = -vars.x0 * cos(mlx.beta) + vars.z0 * sin(mlx.beta);
+		vars.z1 = -vars.x1 * cos(mlx.beta) + vars.z1 * sin(mlx.beta);
+		vars.x0 = temp;
+		vars.x1 = temp1;
+	}
+	if (rotation_type == 'z')
+	{
+		temp = vars.x0 * cos(mlx.gama) - vars.y0 * sin(mlx.gama);
+		temp1 = vars.x1 * cos(mlx.gama) - vars.y1 * sin(mlx.gama);
+		vars.y0 = vars.x0 * cos(mlx.gama) + vars.y0 * sin(mlx.gama);
+		vars.y1 = vars.x1 * cos(mlx.gama) + vars.y1 * sin(mlx.gama);
+		vars.x0 = temp;
+		vars.x1 = temp1;
+	}
+	return (vars);
+}
 
+int	mouse_press(int key, int x, int y, t_mlx *mlx)
+{
+	(void)x;
+	(void)y;
+	mlx_destroy_image(mlx->mlx_ptr, mlx->img_addr);
+	mlx->img = mlx_new_image(mlx->mlx_ptr, 1920, 1080);
+	if (key == SCROLL_UP && mlx->zoom >= 0)
+		mlx->zoom += 1;
+	if (key == SCROLL_DOWN && mlx->zoom > 0)
+		mlx->zoom -= 1;
+	projection(mlx->data, mlx);
+	return (0);
+}
 
-// t_vars ft_rotation(t_vars vars , char rotation_type)
-// {
-// 	int t_y0;
-// 	int t_y1;
-// 	if (rotation_type == 'x')
-// 	{
-// 		t_y0 = vars.y0 * cos(0.8) + vars.z0 * sin(0.8);
-// 		t_y1 = vars.y1 * cos(0.8) + vars.z1 * sin(0.8);
-		
-// 		vars.z0 = -vars.y0 * cos(0.8) + vars.z0 * sin(0.8);
-// 		vars.z1 = -vars.y1 * cos(0.8) + vars.z1 * sin(0.8);
-// 		vars.y0 = t_y0;
-// 		vars.y0 = t_y1;
-// 	}
-	
-// 	return(vars);
-// }
+int	ft_destroy(t_mlx *mlx)
+{
+	(void)mlx;
+	write(1, "Bye!\n", 6);
+	exit(0);
+	return (0);
+}

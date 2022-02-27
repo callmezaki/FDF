@@ -12,6 +12,7 @@ SRC = 	fdf.c \
 		ft_atoi.c \
 		fdf_tools.c \
 		fdf_tools2.c \
+		ft_itoa.c \
 
 CFLAGS = -Wall -Werror -Wextra
 

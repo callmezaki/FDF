@@ -6,19 +6,20 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:44:46 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/20 20:42:23 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/27 05:54:29 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include"fdf.h"
 
-void check_map(t_data data)
+void	check_map(t_data data)
 {
-	int i = 0;
-	int len = 0;
-	char **temp;
-	
+	int		i;
+	int		len;
+	char	**temp;
+
+	len = 0;
+	i = 0;
 	while (i < data.height)
 	{
 		if (data.lines[i][0] == '\n')
@@ -28,13 +29,12 @@ void check_map(t_data data)
 		}
 		i++;
 	}
-	
 	i = 0;
-	while(data.lines[i])
+	while (data.lines[i])
 	{
 		len = 0;
 		temp = ft_split(data.lines[i], ' ');
-		while(temp[len])
+		while (temp[len])
 			len++;
 		if (len != data.width)
 		{
@@ -48,14 +48,15 @@ void check_map(t_data data)
 int	close_buton(int key, void *vars)
 {
 	(void)vars;
-	if(key == esc)
+	if (key == ESC)
 		exit(0);
 	return (0);
 }
 
-int get_mult(t_data data)
+int	get_mult(t_data data)
 {
-	int n;
+	int	n;
+
 	if (data.height > 400 || data.width > 400)
 		n = 2;
 	else if (data.height > 200 || data.width > 200)
@@ -66,6 +67,5 @@ int get_mult(t_data data)
 		n = 20;
 	else
 		n = 25;
-	return(n);
+	return (n);
 }
-

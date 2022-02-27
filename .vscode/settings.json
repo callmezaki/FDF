@@ -5,6 +5,12 @@
 		"fdf": "c",
 		"__node_handle": "c",
 		"fcntl.h": "c",
-		"__locale": "c"
+		"__locale": "c",
+		"array": "c",
+		"iterator": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"unistd.h": "c"
 	}
 }
