@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   fdf_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/01 10:11:45 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 05:25:54 by zait-sli         ###   ########.fr       */
+/*   Created: 2022/02/28 07:12:05 by zait-sli          #+#    #+#             */
+/*   Updated: 2022/02/28 07:15:08 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-size_t	ft_strlen(const char *str)
+int	close_buton(int key, void *vars)
 {
-	size_t	i;
+	(void)vars;
+	if (key == ESC)
+		exit(0);
+	return (0);
+}
 
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
+int	ft_destroy(t_mlx *mlx)
+{
+	(void)mlx;
+	write(1, "Bye!\n", 6);
+	exit(0);
+	return (0);
 }

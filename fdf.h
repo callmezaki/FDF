@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 05:40:20 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 03:01:44 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/28 07:56:23 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int		**get_colors(char **lines, int h, int w);
 int		get_width(char *line);
 void	check_map(t_data *data);
 int		key_hook(int key, t_mlx *mlx);
-int		get_mult(t_data data, t_mlx vars);
+int		get_mult(t_data data, t_mlx mlx);
 void	projection(t_data data, t_mlx	*mlx);
 void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data);
 int		ft_zoom_in(int key, t_data data, t_mlx mlx);
@@ -132,7 +132,7 @@ int		mouse_press(int key, int x, int y, t_mlx *mlx);
 int		ft_destroy(t_mlx *mlx);
 char	*ft_itoa(int n);
 void	initial_map_check(t_data *data);
-void	check_args(int ac, char **av);
+void	check_args(int ac, char **av, t_data *data);
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	get_pad(t_vars *vars, t_mlx mlx);
 void	ft_iso(t_vars *vars);
@@ -141,5 +141,8 @@ void	padding(t_vars *vars);
 t_math	get_valus(t_vars *vars, t_math math);
 void	bresenham(t_vars *vars, t_mlx mlx, t_math math, int color);
 void	free_print_er(t_data *data, int err_type);
+int		count_nbr(long long nbr);
+int		convert_hex(char *hex);
+int		ft_isdigit(int c);
 
 #endif

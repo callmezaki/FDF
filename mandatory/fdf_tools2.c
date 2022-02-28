@@ -6,66 +6,77 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:44:46 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/27 05:54:29 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/28 07:21:50 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"fdf.h"
 
-void	check_map(t_data data)
+int	get_mult(t_data data, t_mlx mlx)
 {
-	int		i;
-	int		len;
-	char	**temp;
-
-	len = 0;
-	i = 0;
-	while (i < data.height)
-	{
-		if (data.lines[i][0] == '\n')
-		{
-			printf("Invalid map.\n");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	i = 0;
-	while (data.lines[i])
-	{
-		len = 0;
-		temp = ft_split(data.lines[i], ' ');
-		while (temp[len])
-			len++;
-		if (len != data.width)
-		{
-			printf("Invalid map.\n");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-}
-
-int	close_buton(int key, void *vars)
-{
-	(void)vars;
-	if (key == ESC)
-		exit(0);
-	return (0);
-}
-
-int	get_mult(t_data data)
-{
-	int	n;
-
 	if (data.height > 400 || data.width > 400)
-		n = 2;
+		mlx.zoom = 2;
 	else if (data.height > 200 || data.width > 200)
-		n = 3;
+		mlx.zoom = 3;
 	else if (data.height > 99 || data.width > 99)
-		n = 4;
+		mlx.zoom = 4;
 	else if (data.height > 50 || data.width > 50)
-		n = 20;
+		mlx.zoom = 20;
 	else
-		n = 25;
-	return (n);
+		mlx.zoom = 25;
+	if (data.z_size != 0 && data.case_size != 0)
+		mlx.zoom = data.case_size;
+	return (mlx.zoom);
+}
+
+int	get_width(char *line)
+{
+	char	**temp;
+	int		i;
+
+	i = 0;
+	temp = ft_split(line, ' ');
+	while (temp[i])
+		i++;
+	return (i);
+}
+
+int	count_nbr(long long nbr)
+{
+	int	count;
+
+	count = 0;
+	if (nbr <= 0)
+		count++;
+	while (nbr != 0)
+	{
+		nbr /= 10;
+		count++;
+	}
+	return (count);
+}
+
+int	convert_hex(char *hex)
+{
+	int	temp;
+	int	decimal;
+	int	len;
+	int	i;
+
+	i = 0;
+	decimal = 0;
+	len = ft_strlen(hex) - 1;
+	while (hex[i])
+	{
+		if (hex[i] >= '0' && hex[i] <= '9')
+			temp = hex[i] - 48;
+		else if (hex[i] >= 'a' && hex[i] <= 'f')
+			temp = hex[i] - 97 + 10;
+		else if (hex[i] >= 'A' && hex[i] <= 'F')
+			temp = hex[i] - 65 + 10;
+		decimal += temp * pow(16, len);
+		i++;
+		len--;
+	}
+	return (decimal);
 }

@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_check.c                                        :+:      :+:    :+:   */
+/*   handle_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/27 20:35:35 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:31:15 by zait-sli         ###   ########.fr       */
+/*   Created: 2022/02/28 06:57:17 by zait-sli          #+#    #+#             */
+/*   Updated: 2022/02/28 07:14:55 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	check_map(t_data *data)
-{
-	int		i;
-	int		len;
-	char	**temp;
-
-	i = 0;
-	while (data->lines[i])
-	{
-		len = 0;
-		temp = ft_split(data->lines[i], ' ');
-		while (temp[len])
-			len++;
-		if (len < data->width)
-			free_print_er(data, 1);
-		i++;
-	}
-}
 
 void	free_print_er(t_data *data, int err_type)
 {
@@ -51,13 +32,30 @@ void	free_print_er(t_data *data, int err_type)
 	}
 }
 
+void	check_map(t_data *data)
+{
+	int		i;
+	int		len;
+	char	**temp;
+
+	i = 0;
+	while (data->lines[i])
+	{
+		len = 0;
+		temp = ft_split(data->lines[i], ' ');
+		while (temp[len])
+			len++;
+		if (len != data->width)
+			free_print_er(data, 1);
+		i++;
+	}
+}
+
 void	initial_map_check(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	if (!data->map)
-		free_print_er(data, 1);
 	if (data->map[i] == '\n')
 		free_print_er(data, 1);
 	while (data->map[i])
@@ -76,29 +74,16 @@ int	ft_isdigit(int c)
 		return (0);
 }
 
-void	check_args(int ac, char **av, t_data *data)
+void	read_map(int fd, t_data *data)
 {
-	int		i;
-	int		j;
-
-	j = 2;
-	if (access(av[1], F_OK) == -1)
-		free_print_er(NULL, 3);
-	if (ac == 2)
-		return ;
-	else if (ac != 4)
-		free_print_er(NULL, 2);
-	while (j < 4)
+	data->line = (char *)malloc(1);
+	data->line[0] = '\0';
+	while (data->line)
 	{
-		i = 0;
-		while (av[j][i])
-		{
-			if (!ft_isdigit(av[j][i]))
-				free_print_er(NULL, 2);
-			i++;
-		}
-		j++;
+		data->line = get_next_line(fd);
+		if (data->line)
+			data->map = ft_strjoin(data->map, data->line);
+		free(data->line);
+		data->height++;
 	}
-	data->case_size = atoi(av[2]);
-	data->z_size = atoi(av[3]);
 }

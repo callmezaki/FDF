@@ -6,136 +6,89 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 00:07:17 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/27 05:32:16 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/28 08:48:25 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+int	*treat_altitiude(int *numbers, char **splited_line)
+{
+	int		j;
+
+	j = 0;
+	while (splited_line[j])
+	{
+		numbers[j] = ft_atoi(splited_line[j]);
+		free(splited_line[j]);
+		j++;
+	}
+	return (numbers);
+}
+
 int	**get_numbers(char **lines, int h, int w)
 {
 	int		**numbers;
 	char	**splited_line;
-	char	**temp;
 	int		i;
-	int		j;
 
 	i = 0;
 	numbers = malloc(8 * h);
 	while (i < h)
 	{
-		j = 0;
 		splited_line = ft_split(lines[i], ' ');
 		numbers[i] = malloc(4 * w);
-		while (splited_line[j])
-		{
-			if (ft_strchr(splited_line[j], ','))
-			{
-				temp = ft_split(splited_line[j], ',');
-				numbers[i][j] = ft_atoi(temp[0]);
-				free(temp);
-			}
-			else
-				numbers[i][j] = ft_atoi(splited_line[j]);
-			j++;
-		}
+		numbers[i] = treat_altitiude(numbers[i], splited_line);
 		free(splited_line);
 		i++;
 	}
 	return (numbers);
 }
 
-int	count_nbr(long long nbr)
+int	*treat_color(int *colors, char **splited_line)
 {
-	int	count;
+	int		j;
+	int		var;
+	int		i;
 
-	count = 0;
-	if (nbr <= 0)
-		count++;
-	while (nbr != 0)
+	j = 0;
+	while (splited_line[j])
 	{
-		nbr /= 10;
-		count++;
+		if (ft_strchr(splited_line[j], ','))
+		{
+			i = 0;
+			while (splited_line[j][i] != ',')
+				i++;
+			if (splited_line[j][i + 1] == '0' && (splited_line[j][i + 2] == 'x'
+					|| splited_line[j][i + 2] == 'X'))
+				var = convert_hex(&splited_line[j][i + 3]);
+			else if (ft_isdigit(splited_line[j][i + 1]))
+				var = ft_atoi(&splited_line[j][i + 1]);
+			else
+				var = 0;
+		}
+		else
+			colors[j] = 16777215;
+		j++;
 	}
-	return (count);
-}
-
-int	convert_hex(char *hex)
-{
-	int	temp;
-	int	decimal;
-	int	len;
-	int	i;
-
-	i = 0;
-	decimal = 0;
-	len = ft_strlen(hex) - 1;
-	while (hex[i])
-	{
-		if (hex[i] >= '0' && hex[i] <= '9')
-		{
-			temp = hex[i] - 48;
-		}
-		else if (hex[i] >= 'a' && hex[i] <= 'f')
-		{
-			temp = hex[i] - 97 + 10;
-		}
-		else if (hex[i] >= 'A' && hex[i] <= 'F')
-		{
-			temp = hex[i] - 65 + 10;
-		}
-		decimal += temp * pow(16, len);
-		i++;
-		len--;
-	}
-	return (decimal);
+	return (colors);
 }
 
 int	**get_colors(char **lines, int h, int w)
 {
 	int		**colors;
-	char	**temp;
 	char	**splited_line;
 	int		i;
-	int		j;
-	int		var;
 
 	i = 0;
 	colors = malloc(8 * h);
 	while (i < h)
 	{
-		j = 0;
 		splited_line = ft_split(lines[i], ' ');
 		colors[i] = malloc (4 * w);
-		while (splited_line[j])
-		{
-			if (ft_strchr(splited_line[j], ','))
-			{
-				temp = ft_split(splited_line[j], ',');
-				var = convert_hex(&temp[1][2]);
-				colors[i][j] = var;
-			}
-			else
-			{
-				var = 16777215;
-				colors[i][j] = var;
-			}
-			j++;
-		}
+		colors[i] = treat_color(colors[i], splited_line);
 		free(splited_line);
 		i++;
 	}
 	return (colors);
-}
-
-int	get_width(char *line)
-{
-	char	**temp;
-	int		i;
-
-	i = 0;
-	temp = ft_split(line, ' ');
-	while (temp[i])
-		i++;
-	return (i);
 }
