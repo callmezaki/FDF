@@ -6,13 +6,13 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 00:07:17 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/27 05:27:14 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/27 06:28:27 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		**get_numbers(char **lines, int h, int w)
+int	**get_numbers(char **lines, int h, int w)
 {
 	int		**numbers;
 	char	**splited_line;
@@ -73,17 +73,11 @@ int	convert_hex(char *hex)
 	while (hex[i])
 	{
 		if (hex[i] >= '0' && hex[i] <= '9')
-		{
 			temp = hex[i] - 48;
-		}
 		else if (hex[i] >= 'a' && hex[i] <= 'f')
-		{
 			temp = hex[i] - 97 + 10;
-		}
 		else if (hex[i] >= 'A' && hex[i] <= 'F')
-		{
 			temp = hex[i] - 65 + 10;
-		}
 		decimal += temp * pow(16, len);
 		i++;
 		len--;

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 05:40:20 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/27 05:50:34 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/02/28 03:01:44 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # define RIGHT	124
 # define UP		126
 # define DOWN	125
-# define LEFT_CLICK 4
-# define RIGHT_CLICK  5
 # define SCROLL_UP 4
 # define SCROLL_DOWN  5
 # define KEY_I  34
@@ -62,7 +60,7 @@ typedef struct s_vars
 typedef struct s_data
 {
 	int		height;
-	char*	map_name;
+	char	*map_name;
 	int		width;
 	char	*line;
 	char	*map;
@@ -83,8 +81,8 @@ typedef struct s_mlx
 	int		line_length;
 	int		endian;
 	int		altitude;
-	int		position_x;
-	int		position_y;
+	int		p_x;
+	int		p_y;
 	int		zoom;
 	int		x_rota;
 	char	r_type;
@@ -121,17 +119,27 @@ int		count_nbr(long long nbr);
 int		convert_hex(char *hex);
 int		**get_colors(char **lines, int h, int w);
 int		get_width(char *line);
-void	check_map(t_data data);
+void	check_map(t_data *data);
 int		key_hook(int key, t_mlx *mlx);
 int		get_mult(t_data data, t_mlx vars);
 void	projection(t_data data, t_mlx	*mlx);
-void	draw_line(t_vars vars, t_mlx mlx, int color, t_data data);
+void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data);
 int		ft_zoom_in(int key, t_data data, t_mlx mlx);
 t_mlx	ft_reset(t_mlx mlx);
-t_vars	ft_rotation(t_vars vars, t_mlx mlx, char rotation_type);
+void	ft_rotation(t_vars *vars, t_mlx mlx, char rotation_type);
 void	ft_strings(t_mlx *mlx, t_vars *vars);
 int		mouse_press(int key, int x, int y, t_mlx *mlx);
 int		ft_destroy(t_mlx *mlx);
 char	*ft_itoa(int n);
+void	initial_map_check(t_data *data);
+void	check_args(int ac, char **av);
+void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
+void	get_pad(t_vars *vars, t_mlx mlx);
+void	ft_iso(t_vars *vars);
+void	handle_zoom_center(t_vars *vars, t_mlx mlx, t_data data);
+void	padding(t_vars *vars);
+t_math	get_valus(t_vars *vars, t_math math);
+void	bresenham(t_vars *vars, t_mlx mlx, t_math math, int color);
+void	free_print_er(t_data *data, int err_type);
 
 #endif
