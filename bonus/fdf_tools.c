@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 00:07:17 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 09:01:14 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 02:41:07 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	*treat_altitiude(int *numbers, char **splited_line)
 	while (splited_line[j])
 	{
 		numbers[j] = ft_atoi(splited_line[j]);
+		free(splited_line[j]);
 		j++;
 	}
 	return (numbers);
@@ -32,11 +33,11 @@ int	**get_numbers(char **lines, int h, int w)
 	int		i;
 
 	i = 0;
-	numbers = malloc(8 * h);
+	numbers = (int **)malloc(8 * h);
 	while (i < h)
 	{
 		splited_line = ft_split(lines[i], ' ');
-		numbers[i] = malloc(4 * w);
+		numbers[i] = (int *)malloc(4 * w);
 		numbers[i] = treat_altitiude(numbers[i], splited_line);
 		free(splited_line);
 		i++;
@@ -80,14 +81,24 @@ int	**get_colors(char **lines, int h, int w)
 	int		i;
 
 	i = 0;
-	colors = malloc(8 * h);
+	colors = (int **)malloc(sizeof(int *) * h);
 	while (i < h)
 	{
 		splited_line = ft_split(lines[i], ' ');
-		colors[i] = malloc (4 * w);
+		colors[i] = (int *)malloc (sizeof(int) * w);
 		colors[i] = treat_color(colors[i], splited_line);
 		free(splited_line);
 		i++;
 	}
 	return (colors);
+}
+
+void	ft_free_double(void **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		free(s[i++]);
+	free(s);
 }

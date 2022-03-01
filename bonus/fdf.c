@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 20:16:52 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 06:35:04 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:45:14 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,30 @@ int	get_width(char *line)
 	temp = ft_split(line, ' ');
 	while (temp[i])
 		i++;
+	ft_free_double((void **)temp);
 	return (i);
 }
 
 void	read_map(int fd, t_data *data)
 {
+	char	*str;
+
 	data->line = (char *)malloc(1);
 	data->line[0] = '\0';
+	str = data->line;
 	while (data->line)
 	{
+		if (str != NULL)
+		{
+			free(str);
+			str = NULL;
+		}
 		data->line = get_next_line(fd);
 		if (data->line)
+		{
 			data->map = ft_strjoin(data->map, data->line);
-		free(data->line);
+			free(data->line);
+		}
 		data->height++;
 	}
 }
@@ -49,6 +60,15 @@ void	ft_mlx(t_mlx *mlx)
 	mlx_hook(mlx->win_ptr, 17, 0, ft_destroy, mlx);
 }
 
+void	ft_last_free(t_data data, t_mlx mlx)
+{
+	(void)data;
+	write(1, "Bye!\n", 6);
+	mlx_destroy_image(mlx.mlx_ptr, mlx.img);
+	mlx_destroy_window(mlx.mlx_ptr, mlx.win_ptr);
+	exit(EXIT_SUCCESS);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -58,21 +78,20 @@ int	main(int ac, char **av)
 	data.height = -1;
 	check_args(ac, av, &data);
 	mlx.altitude = 1;
-	mlx = ft_reset(mlx);
 	fd = open(av[1], O_RDONLY);
 	read_map(fd, &data);
 	initial_map_check(&data);
 	data.lines = ft_split(data.map, '\n');
 	data.width = get_width(data.lines[0]);
-	check_map(&data);
-	data.map_name = av[1];
 	data.numbers = get_numbers(data.lines, data.height, data.width);
 	data.colors = get_colors(data.lines, data.height, data.width);
-	mlx.zoom = get_mult(data, mlx);
+	mlx = ft_reset(mlx);
+	data.map_name = av[1];
 	mlx.mlx_ptr = mlx_init();
 	ft_mlx(&mlx);
 	mlx.data = data;
 	projection(data, &mlx);
 	mlx_loop(mlx.mlx_ptr);
+	ft_last_free(data, mlx);
 	return (0);
 }

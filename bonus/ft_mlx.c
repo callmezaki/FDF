@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:50:14 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 00:22:43 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 06:50:40 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	print_keymap(t_mlx *mlx)
 {
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 740, 11520457,
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 710, 11520457,
 		"KEY MAP");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 760, 11520457,
+		"Activate random colors : space bar                |");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 790, 11520457,
-		"parallel view : 'P'                               |");
+		"Parallel view : 'P'                               |");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 820, 11520457,
 		"Reset to defult : 'R'                             |");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 10, 850, 11520457,
@@ -36,6 +38,29 @@ void	print_keymap(t_mlx *mlx)
 		"Altitude : + with '+' , - with '-'                |");
 }
 
+void	print_variables(t_mlx *mlx, t_vars *vars)
+{
+	char	*temp;
+
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 100, 40, 11520457,
+		temp = ft_itoa(mlx->zoom));
+	free(temp);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 70, 11520457,
+		temp = ft_itoa(vars->pad_x + mlx->p_x));
+	free(temp);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 70, 11520457,
+		temp = ft_itoa(vars->pad_x + mlx->p_x));
+	free(temp);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 100, 11520457,
+		temp = ft_itoa(vars->pad_y + mlx->p_y));
+	free(temp);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 130, 11520457,
+		temp = ft_itoa(mlx->altitude));
+	free(temp);
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 130, 11520457,
+		temp = ft_itoa(mlx->altitude));
+}
+
 void	ft_strings(t_mlx *mlx, t_vars *vars)
 {
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 920, 10, 11520457,
@@ -44,23 +69,13 @@ void	ft_strings(t_mlx *mlx, t_vars *vars)
 		mlx->data.map_name);
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 10, 11520457, "INFO");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 30, 40, 11520457, "ZOOM :");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 100, 40, 11520457,
-		ft_itoa(mlx->zoom));
-	if (mlx->zoom == 0)
-		mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 120, 40, 16711680,
-			"You can't zoom out any more!");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 30, 70, 11520457,
 		"X posintion : ");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 70, 11520457,
-		ft_itoa(vars->pad_x + mlx->p_x));
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 30, 100, 11520457,
 		"Y posintion : ");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 100, 11520457,
-		ft_itoa(vars->pad_y + mlx->p_y));
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 30, 130, 11520457,
 		"Altitude : ");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 200, 130, 11520457,
-		ft_itoa(mlx->altitude));
+	print_variables(mlx, vars);
 	print_keymap(mlx);
 }
 

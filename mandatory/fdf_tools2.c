@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:44:46 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:21:50 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 06:01:11 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	get_width(char *line)
 	i = 0;
 	temp = ft_split(line, ' ');
 	while (temp[i])
+	{
+		free(temp[i]);
 		i++;
+	}
+	free(temp);
 	return (i);
 }
 

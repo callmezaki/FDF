@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/13 20:44:46 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 06:23:12 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:39:27 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_mlx	ft_reset(t_mlx mlx)
 	mlx.alpha = 0;
 	mlx.beta = 0;
 	mlx.gama = 0;
+	mlx.random_colors = FALSE;
 	return (mlx);
 }
 

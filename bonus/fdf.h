@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 05:40:20 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:56:23 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:35:30 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define SCROLL_UP 4
 # define SCROLL_DOWN  5
 # define KEY_I  34
+# define SPACE_BAR  49
 # define KEY_P  35
 # define KEY_O  31
 # define KEY_R  15
@@ -90,6 +91,7 @@ typedef struct s_mlx
 	double	alpha;
 	double	beta;
 	double	gama;
+	int		random_colors;
 	t_data	data;
 }	t_mlx;
 
@@ -144,5 +146,7 @@ void	free_print_er(t_data *data, int err_type);
 int		count_nbr(long long nbr);
 int		convert_hex(char *hex);
 int		ft_isdigit(int c);
+void	ft_free_double(void **s);
+void	ft_last_free(t_data data, t_mlx mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:10:50 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 02:54:21 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:31:09 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	projection(t_data data, t_mlx *mlx)
 
 	y = 0;
 	vars = (t_vars *)malloc(sizeof(t_vars));
+	mlx->data = data;
 	get_pad(vars, *mlx);
 	while (y < data.height)
 	{
@@ -53,11 +54,13 @@ void	projection(t_data data, t_mlx *mlx)
 	}
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 0, 0);
 	ft_strings(mlx, vars);
+	free(vars);
 }
 
 void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data)
 {
 	t_math	*math;
+	int		r;
 
 	math = (t_math *)malloc(sizeof(t_math *));
 	vars->z0 = data.numbers[vars->y0][vars->x0];
@@ -75,6 +78,10 @@ void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data)
 	ft_rotation(vars, mlx, mlx.r_type);
 	if (mlx.iso_validity == TRUE)
 		ft_iso(vars);
+	r = rand();
+	if (mlx.random_colors == TRUE && r > 100)
+		color = r;
 	padding(vars);
 	bresenham(vars, mlx, *math, color);
+	free(math);
 }

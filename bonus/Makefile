@@ -12,10 +12,13 @@ SRC = 	fdf.c \
 		ft_atoi.c \
 		fdf_tools.c \
 		fdf_tools2.c \
+		ft_itoa.c \
+		fdf_hooks.c \
+		fdf_rotation.c \
+		ft_mlx.c \
+		map_check.c \
 		fdf_drawing.c \
 		fdf_drawing2.c \
-		handle_map.c \
-		fdf_hooks.c  \
 
 CFLAGS = -Wall -Werror -Wextra
 

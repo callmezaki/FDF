@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 06:57:17 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:14:55 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 06:34:01 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ void	check_map(t_data *data)
 		len = 0;
 		temp = ft_split(data->lines[i], ' ');
 		while (temp[len])
+		{
+			free(temp[len]);
 			len++;
-		if (len != data->width)
+		}
+		free(temp);
+		if (len < data->width)
 			free_print_er(data, 1);
 		i++;
 	}
@@ -76,14 +80,24 @@ int	ft_isdigit(int c)
 
 void	read_map(int fd, t_data *data)
 {
+	char	*str;
+
 	data->line = (char *)malloc(1);
 	data->line[0] = '\0';
+	str = data->line;
 	while (data->line)
 	{
+		if (str != NULL)
+		{
+			free(str);
+			str = NULL;
+		}
 		data->line = get_next_line(fd);
 		if (data->line)
+		{
 			data->map = ft_strjoin(data->map, data->line);
-		free(data->line);
+			free(data->line);
+		}
 		data->height++;
 	}
 }

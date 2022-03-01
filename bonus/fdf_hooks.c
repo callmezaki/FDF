@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 06:00:16 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 00:22:43 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:44:26 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ void	translation_hooks(int key, t_mlx *mlx)
 		mlx->p_x -= 10;
 	if (key == DOWN)
 		mlx->p_y += 10;
+	if (key == PLUS)
+		mlx->altitude += 1;
+	if (key == UP)
+		mlx->p_y -= 10;
 }
 
 int	key_hook(int key, t_mlx *mlx)
@@ -57,22 +61,22 @@ int	key_hook(int key, t_mlx *mlx)
 	mlx_destroy_image(mlx->mlx_ptr, mlx->img_addr);
 	mlx->img = mlx_new_image(mlx->mlx_ptr, 1920, 1080);
 	if (key == ESC)
-	{
-		write(1, "Bye!\n", 6);
-		exit(0);
-	}
+		ft_last_free(mlx->data, *mlx);
 	if (key == KEY_R)
 		*mlx = ft_reset(*mlx);
-	if (key == PLUS)
-		mlx->altitude += 1;
-	if (key == UP)
-		mlx->p_y -= 10;
 	if (key == KEY_P)
 	{
 		if (mlx->iso_validity == TRUE)
 			mlx->iso_validity = FALSE;
 		else
 			mlx->iso_validity = TRUE;
+	}
+	if (key == SPACE_BAR)
+	{
+		if (mlx->random_colors == TRUE)
+			mlx->random_colors = FALSE;
+		else
+			mlx->random_colors = TRUE;
 	}
 	translation_hooks(key, mlx);
 	rotation_hooks(key, mlx);
@@ -97,7 +101,6 @@ int	mouse_press(int key, int x, int y, t_mlx *mlx)
 int	ft_destroy(t_mlx *mlx)
 {
 	(void)mlx;
-	write(1, "Bye!\n", 6);
-	exit(0);
+	ft_last_free(mlx->data, *mlx);
 	return (0);
 }

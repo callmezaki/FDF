@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 20:35:35 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:31:15 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 01:24:46 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	check_map(t_data *data)
 		temp = ft_split(data->lines[i], ' ');
 		while (temp[len])
 			len++;
+		ft_free_double((void **)temp);
 		if (len < data->width)
 			free_print_er(data, 1);
 		i++;
@@ -99,6 +100,6 @@ void	check_args(int ac, char **av, t_data *data)
 		}
 		j++;
 	}
-	data->case_size = atoi(av[2]);
-	data->z_size = atoi(av[3]);
+	data->case_size = ft_atoi(av[2]);
+	data->z_size = ft_atoi(av[3]);
 }

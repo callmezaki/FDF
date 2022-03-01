@@ -6,7 +6,7 @@
 /*   By: zait-sli <zait-sli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 06:41:15 by zait-sli          #+#    #+#             */
-/*   Updated: 2022/02/28 07:13:12 by zait-sli         ###   ########.fr       */
+/*   Updated: 2022/03/01 05:57:35 by zait-sli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	projection(t_data data, t_mlx *mlx)
 		y++;
 	}
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img, 0, 0);
+	free(vars);
 }
 
 void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data)
@@ -70,6 +71,7 @@ void	draw_line(t_vars *vars, t_mlx mlx, int color, t_data data)
 	ft_iso(vars);
 	padding(vars);
 	bresenham(vars, mlx, *math, color);
+	free(math);
 }
 
 void	ft_iso(t_vars *vars)
