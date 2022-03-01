@@ -1,6 +1,6 @@
 NAME = fdf
 INCLUDE = mandatory/fdf.h
-INCLUDE_B = bonus/fdf.h
+INCLUDE_B = bonus/fdf_bonus.h
 SRC =	mandatory/fdf.c \
 		mandatory/ft_strdup.c \
 		mandatory/ft_strlen.c \
@@ -18,25 +18,25 @@ SRC =	mandatory/fdf.c \
 		mandatory/handle_map.c \
 		mandatory/fdf_hooks.c  \
 
-SRC_B =		bonus/fdf.c \
-		bonus/ft_strdup.c \
-		bonus/ft_strlen.c \
-		bonus/ft_split.c \
-		bonus/get_next_line_utils.c \
-		bonus/get_next_line.c \
-		bonus/ft_strtrim.c \
-		bonus/ft_strlcpy.c \
-		bonus/ft_strncmp.c \
-		bonus/ft_atoi.c \
-		bonus/fdf_tools.c \
-		bonus/fdf_tools2.c \
-		bonus/ft_itoa.c \
-		bonus/fdf_hooks.c \
-		bonus/fdf_rotation.c \
-		bonus/ft_mlx.c \
-		bonus/map_check.c \
-		bonus/fdf_drawing.c \
-		bonus/fdf_drawing2.c \
+SRC_B =		bonus/fdf_bonus.c \
+		bonus/ft_strdup_bonus.c \
+		bonus/ft_strlen_bonus.c \
+		bonus/ft_split_bonus.c \
+		bonus/get_next_line_utils_bonus.c \
+		bonus/get_next_line_bonus.c \
+		bonus/ft_strtrim_bonus.c \
+		bonus/ft_strlcpy_bonus.c \
+		bonus/ft_strncmp_bonus.c \
+		bonus/ft_atoi_bonus.c \
+		bonus/fdf_tools_bonus.c \
+		bonus/fdf_tools2_bonus.c \
+		bonus/ft_itoa_bonus.c \
+		bonus/fdf_hooks_bonus.c \
+		bonus/fdf_rotation_bonus.c \
+		bonus/ft_mlx_bonus.c \
+		bonus/map_check_bonus.c \
+		bonus/fdf_drawing_bonus.c \
+		bonus/fdf_drawing2_bonus.c \
 
 CFLAGS = -Wall -Werror -Wextra
 
@@ -46,12 +46,12 @@ OBJ_B = $(SRC_B:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-#	@rm -f  $(OBJ_B) $(NAME)
+	@rm -f  $(OBJ_B) $(NAME)
 	@gcc  $(CFLAGS) -I $(INCLUDE) -o $@ $^   -lmlx -framework OpenGL -framework AppKit
 
 bonus : $(OBJ_B)
-	@make fclean
-	@gcc  $(CFLAGS) -I $(SRC_B) $(INCLUDE_B) -o $(NAME) $^   -lmlx -framework OpenGL -framework AppKit
+	@rm -f  $(OBJS) $(NAME)
+	@gcc  $(CFLAGS) -I $(INCLUDE_B) -o $(NAME) $^  -lmlx -framework OpenGL -framework AppKit
 
 clean:
 	@rm -f $(OBJS) $(OBJ_B)
